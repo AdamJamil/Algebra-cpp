@@ -6,6 +6,6 @@
 #define ALGEBRA_DEFINITIONS_H
 
 #define F(i,n) for (int i = 0; i < n; ++i)
-#define tr(x, v) for (auto x:v)
+#define tr(x, v) for (auto &x:v)
 
 #endif //ALGEBRA_DEFINITIONS_H

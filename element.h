@@ -1,35 +1,39 @@
 #ifndef ALGEBRA_ELEMENT_H
 #define ALGEBRA_ELEMENT_H
 
-
 #include <ostream>
+#include <vector>
 
-//class Int{
-//public:
-//    explicit Int(int x, int n) { this->x = x; this->n = n; this->cmp = x; }
-//    [[nodiscard]] Int dot(Int y) const { return Int((this->x + y.x) % this->n, this->n); }
-//    friend std::ostream& operator <<(std::ostream& os, const Int& b) { return os << b.x; }
-//    int x, n, cmp;
-//    bool operator<(const Int& rhs) const { return cmp < rhs.cmp; }
-//};
-
-template<class E>
-class element {
-    virtual std::ostream& doprint(std::ostream&) const = 0;
+class Int {
 public:
-    int cmp{};
-    friend std::ostream& operator << (std::ostream& os, const E& b) { return b.doprint(os); }
-    [[nodiscard]] virtual E dot(E b) const = 0;
-    bool operator<(const element<E>& rhs) const { return cmp < rhs.cmp; }
-};
-
-class Int : public element<Int> {
-public:
-    std::ostream& doprint(std::ostream& os) const override;
+    // [v]_n = equivalence class of v, mod n
     int v, n;
-    [[nodiscard]] Int dot(Int b) const override;
-    explicit Int(int v, int n);
+    explicit Int(int v, int n) { this->v = v; this->n = n; };
+
+    [[nodiscard]] Int dot(Int const &b) const;
+
+    bool operator==(const Int& rhs) const { return v == rhs.v; }
+    bool operator<(const Int& rhs) const { return v < rhs.v; }
+    friend std::ostream& operator <<(std::ostream& os, const Int& b) { return os << b.v; }
 };
 
+class Perm {
+public:
+    // p is a bijection from [n] to [n]
+    int n;
+    std::vector<int> p;
+    // cycle_lengths is lengths of all nonzero cycles; used in sorting sensibly
+    // first element is actually number of cycles; rest of vector is as expected
+    std::vector<int> cycle_lengths;
+    // cycle notation for S_n
+    std::string name;
+    explicit Perm(int n, std::vector<int> p, bool dec);
+
+    [[nodiscard]] Perm dot(Perm const &b) const;
+
+    bool operator==(const Perm& rhs) const { return p == rhs.p; }
+    bool operator<(const Perm& rhs) const;
+    friend std::ostream& operator <<(std::ostream& os, const Perm& b);
+};
 
 #endif //ALGEBRA_ELEMENT_H
