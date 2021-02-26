@@ -1,14 +1,13 @@
 #ifndef ALGEBRA_ELEMENT_H
 #define ALGEBRA_ELEMENT_H
 
-#include <ostream>
-#include <vector>
+#include "definitions.h"
 
 class Int {
 public:
     // [v]_n = equivalence class of v, mod n
     int v, n;
-    explicit Int(int v, int n) { this->v = v; this->n = n; };
+    Int(int v, int n) { this->v = v; this->n = n; };
 
     [[nodiscard]] Int dot(Int const &b) const;
 
@@ -27,7 +26,7 @@ public:
     std::vector<int> cycle_lengths;
     // cycle notation for S_n
     std::string name;
-    explicit Perm(int n, std::vector<int> p, bool dec);
+    Perm(std::vector<int> p);
 
     [[nodiscard]] Perm dot(Perm const &b) const;
 

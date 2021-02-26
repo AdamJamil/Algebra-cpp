@@ -1,8 +1,4 @@
-#include <iostream>
-#include <vector>
-#include <cstring>
 #include "element.h"
-#include "definitions.h"
 
 // --------------------------------------- Int ------------------------------------------- //
 // composition in Z_n is just addition mod n
@@ -12,10 +8,12 @@ Int Int::dot(Int const &b) const { return Int((this->v + b.v) % this->n, this-> 
 // constructor for permutation - also generates string name for element, and cycle_lengths
 // TODO: huge performance boost via moving computation of string name to printing
 //      - have to do something about const in << operator!
-Perm::Perm(int n, std::vector<int> p, bool dec) {
+Perm::Perm(std::vector<int> p) {
     // dec true if 1-indexed
-    if (dec) tr(x, p) x--;
-    this->n = n; this->p = p;
+    bool dec = false;
+    this->n = p.size(); this->p = p;
+    TR(x, p) dec |= x == n;
+    if (dec) TR(x, p) x--;
 
     // find all cycles
     bool used[n];
@@ -39,7 +37,7 @@ Perm Perm::dot(Perm const &b) const {
     std::vector<int> res(n);
     // compose permutation
     F(i,n) res[i] = p[b.p[i]];
-    return Perm(n, res, false);
+    return Perm(res);
 }
 
 // first compare number of cycles; fewer means smaller.
