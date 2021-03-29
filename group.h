@@ -20,8 +20,8 @@ public:
     // prints out all elements in group
     friend std::ostream& operator<<(std::ostream& out, const group<E>& g) {
         out << "[";
-        for (auto val : g.s) {
-            if (val != *g.s.begin()) out << ", ";
+        for (auto val : g) {
+            if (val != *g.begin()) out << ", ";
             out << val;
         }
         return out << "]";

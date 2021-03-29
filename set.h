@@ -1,7 +1,3 @@
-//
-// Created by adama on 2/25/2021.
-//
-
 #ifndef ALGEBRA_SET_H
 #define ALGEBRA_SET_H
 

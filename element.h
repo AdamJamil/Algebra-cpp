@@ -12,6 +12,7 @@ public:
     [[nodiscard]] Int dot(Int const &b) const;
 
     bool operator==(const Int& rhs) const { return v == rhs.v; }
+    bool operator!=(const Int& rhs) const { return v != rhs.v; }
     bool operator<(const Int& rhs) const { return v < rhs.v; }
     friend std::ostream& operator <<(std::ostream& os, const Int& b) { return os << b.v; }
 };
@@ -31,6 +32,7 @@ public:
     [[nodiscard]] Perm dot(Perm const &b) const;
 
     bool operator==(const Perm& rhs) const { return p == rhs.p; }
+    bool operator!=(const Perm& rhs) const { return p != rhs.p; }
     bool operator<(const Perm& rhs) const;
     friend std::ostream& operator <<(std::ostream& os, const Perm& b);
 };
