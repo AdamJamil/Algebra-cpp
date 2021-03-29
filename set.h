@@ -11,12 +11,14 @@ public:
     // prints out all elements in group
     friend std::ostream& operator<<(std::ostream& out, const set<E>& g) {
         out << "[";
-        for (auto val : g.s) {
-            if (val != *g.s.begin()) out << ", ";
+        for (auto val : g) {
+            if (val != *g.begin()) out << ", ";
             out << val;
         }
         return out << "]";
     }
+
+    set() = default;
 
     template<class C, class T = typename C::value_type> // this template ensures we have a container of type T
     set(C gen) : std::set<E>(gen) {

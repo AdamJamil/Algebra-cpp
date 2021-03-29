@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 #include <set>
+#include <unordered_map>
 #include <string>
 #include <numeric>
 #include <cstring>
@@ -31,11 +32,20 @@ std::ostream& operator<<(std::ostream& out, const std::set<T>& v) {
     out << "\b\b}";
     return out;
 }
-#define D(x) do { std::cerr << x; } while (0);
+
+// overrides << for pairs
+template <typename T, typename V>
+std::ostream& operator<<(std::ostream& out, const std::pair<T, V>& v) {
+    out << '(' << v.first << ", " << v.second << ")";
+    return out;
+}
+
+#define D(x) do { std::cerr << #x << " = " << x << std::endl; } while (0);
 
 
 typedef long long ll;
 typedef std::vector<ll> vl;
 typedef std::vector<int> vi;
+typedef std::set<ll> sl;
 
 #endif //ALGEBRA_DEFINITIONS_H

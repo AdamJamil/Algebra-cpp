@@ -1,12 +1,13 @@
 #include "definitions.h"
 #include "group.h"
-using namespace std;
+#include "function.h"
 
 int main() {
     group<Int> Z4 = generate::Z(4);
-    cout << Z4 << endl;
-//    D(Z4)
-//    generate::generators_Z(4);
-//    cout << generate::Z(4) << endl;
+    std::cout << Z4 << std::endl;
+    std::unordered_map<ll, ll> m = {{1, 2}, {2, 1}, {3, 4}};
+    function<ll, ll> f = m;
+    D(f)
+    D(f.domain)
     return 0;
 }
