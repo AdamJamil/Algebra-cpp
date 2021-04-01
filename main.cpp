@@ -1,13 +1,14 @@
 #include "definitions.h"
 #include "group.h"
-#include "function.h"
+#include "function.cpp"
 
 int main() {
-    group<Int> Z4 = generate::Z(4);
-    std::cout << Z4 << std::endl;
     std::unordered_map<ll, ll> m = {{1, 2}, {2, 1}, {3, 4}};
-    function<ll, ll> f = m;
+    auto f = bijection<ll, ll>(m);
     D(f)
-    D(f.domain)
+    std::cerr << '\n';
+    std::vector<std::pair<ll, ll>> x = {{4, 3}};
+    auto g = surjection<ll, ll>(m);
+    D(g)
     return 0;
 }

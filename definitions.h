@@ -10,6 +10,7 @@
 #include <cstring>
 #include <algorithm>
 #include <iterator>
+#include "assert.h"
 
 #define F(i,n) for (int i = 0; i < n; ++i)
 #define TR(x, v) for (auto &x:v)
@@ -19,7 +20,8 @@
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const std::vector<T>& v) {
     out << '{';
-    std::copy (v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
+    for (auto ptr = v.begin(); ptr != v.end(); ptr++)
+        out << *ptr << ", ";
     out << "\b\b}";
     return out;
 }
@@ -45,6 +47,7 @@ std::ostream& operator<<(std::ostream& out, const std::pair<T, V>& v) {
 
 typedef long long ll;
 typedef std::vector<ll> vl;
+typedef std::vector<std::pair<ll, ll>> vpl;
 typedef std::vector<int> vi;
 typedef std::set<ll> sl;
 
