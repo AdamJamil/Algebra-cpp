@@ -3,14 +3,20 @@
 
 #include <iostream>
 #include <vector>
+#include <queue>
 #include <set>
+#include <unordered_set>
 #include <unordered_map>
 #include <string>
 #include <numeric>
 #include <cstring>
 #include <algorithm>
 #include <iterator>
+#include <functional>
 #include "assert.h"
+#include <chrono>
+using namespace std::chrono;
+
 
 #define F(i,n) for (int i = 0; i < n; ++i)
 #define TR(x, v) for (auto &x:v)
@@ -20,9 +26,9 @@
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const std::vector<T>& v) {
     out << '{';
-    for (auto ptr = v.begin(); ptr != v.end(); ptr++)
-        out << *ptr << ", ";
-    out << "\b\b}";
+    for (auto ptr = v.begin(); ptr != v.end(); )
+        out << *ptr << (ptr++ == v.end() ? "" : ", ");
+    out << "}";
     return out;
 }
 
@@ -30,9 +36,20 @@ std::ostream& operator<<(std::ostream& out, const std::vector<T>& v) {
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const std::set<T>& v) {
     out << '{';
-    std::copy (v.begin(), v.end(), std::ostream_iterator<T>(out, ", "));
-    out << "\b\b}";
-    return out;
+    for (auto ptr = v.begin(); ptr != v.end();)
+        out << *ptr << (++ptr == v.end() ? "" : ", ");
+    out << '}';
+    return out << " ";
+}
+
+// overrides << for unordered_sets
+template <typename T>
+std::ostream& operator<<(std::ostream& out, const std::unordered_set<T>& v) {
+    out << '{';
+    for (auto ptr = v.begin(); ptr != v.end();)
+        out << *ptr << (++ptr == v.end() ? "" : ", ");
+    out << '}';
+    return out << " ";
 }
 
 // overrides << for pairs
@@ -46,6 +63,7 @@ std::ostream& operator<<(std::ostream& out, const std::pair<T, V>& v) {
 
 
 typedef long long ll;
+typedef long double ld;
 typedef std::vector<ll> vl;
 typedef std::vector<std::pair<ll, ll>> vpl;
 typedef std::vector<int> vi;

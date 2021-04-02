@@ -3,38 +3,41 @@
 
 #include "definitions.h"
 
-class Int {
+
+template<typename T>
+class group_element {
 public:
-    // [v]_n = equivalence class of v, mod n
-    int v, n;
-    Int(int v, int n) { this->v = v; this->n = n; };
+    T label;
+    std::function<T(T, T)> *compose;
 
-    [[nodiscard]] Int dot(Int const &b) const;
+    group_element<T>(T label_, std::function<T(T, T)> *compose_) : label(label_), compose(compose_) {}
 
-    bool operator==(const Int& rhs) const { return v == rhs.v; }
-    bool operator!=(const Int& rhs) const { return v != rhs.v; }
-    bool operator<(const Int& rhs) const { return v < rhs.v; }
-    friend std::ostream& operator <<(std::ostream& os, const Int& b) { return os << b.v; }
+    group_element<T> operator*(const group_element<T> &o) const { return group_element<T>((*compose)(this->label, o.label), compose); }
+    bool operator<(const group_element<T> &o) const { return label < o.label; }
+    bool operator==(const group_element<T> &o) const { return label == o.label; }
+    bool operator!=(const group_element<T> &o) const { return label != o.label; }
+    friend std::ostream& operator <<(std::ostream& os, const group_element<T>& b) { return os << b.label; }
 };
 
-class Perm {
-public:
-    // p is a bijection from [n] to [n]
-    int n;
-    std::vector<int> p;
-    // cycle_lengths is lengths of all nonzero cycles; used in sorting sensibly
-    // first element is actually number of cycles; rest of vector is as expected
-    std::vector<int> cycle_lengths;
-    // cycle notation for S_n
-    std::string name;
-    Perm(std::vector<int> p);
 
-    [[nodiscard]] Perm dot(Perm const &b) const;
-
-    bool operator==(const Perm& rhs) const { return p == rhs.p; }
-    bool operator!=(const Perm& rhs) const { return p != rhs.p; }
-    bool operator<(const Perm& rhs) const;
-    friend std::ostream& operator <<(std::ostream& os, const Perm& b);
-};
+//class Perm {
+//public:
+//    // p is a bijection from [n] to [n]
+//    int n;
+//    std::vector<int> p;
+//    // cycle_lengths is lengths of all nonzero cycles; used in sorting sensibly
+//    // first element is actually number of cycles; rest of vector is as expected
+//    std::vector<int> cycle_lengths;
+//    // cycle notation for S_n
+//    std::string name;
+//    Perm(std::vector<int> p);
+//
+//    [[nodiscard]] Perm dot(Perm const &b) const;
+//
+//    bool operator==(const Perm& rhs) const { return p == rhs.p; }
+//    bool operator!=(const Perm& rhs) const { return p != rhs.p; }
+//    bool operator<(const Perm& rhs) const;
+//    friend std::ostream& operator <<(std::ostream& os, const Perm& b);
+//};
 
 #endif //ALGEBRA_ELEMENT_H
