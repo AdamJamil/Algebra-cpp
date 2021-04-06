@@ -15,6 +15,7 @@
 #include <functional>
 #include "assert.h"
 #include <chrono>
+#include "math.h"
 using namespace std::chrono;
 
 
@@ -62,11 +63,18 @@ std::ostream& operator<<(std::ostream& out, const std::pair<T, V>& v) {
 #define D(x) do { std::cerr << #x << " = " << x << std::endl; } while (0);
 
 
-typedef long long ll;
+typedef int ll;
 typedef long double ld;
 typedef std::vector<ll> vl;
 typedef std::vector<std::pair<ll, ll>> vpl;
 typedef std::vector<int> vi;
 typedef std::set<ll> sl;
+
+template<typename R, typename D>
+class bijection;
+
+typedef bijection<ll, ll> perm;
+
+extern vl PRIMES;
 
 #endif //ALGEBRA_DEFINITIONS_H

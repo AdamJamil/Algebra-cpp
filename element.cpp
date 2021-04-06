@@ -1,6 +1,3 @@
-#include "element.h"
-
-
 // --------------------------------------- Perm ------------------------------------------ //
 // constructor for permutation - also generates string name for element, and cycle_lengths
 // TODO: huge performance boost via moving computation of string name to printing
@@ -39,7 +36,7 @@
 //
 //// first compare number of cycles; fewer means smaller.
 ////     if equal, compare lexicographically lengths of cycles
-////     if equal, finally compare actual permutaiton
+////     if equal, finally compare actual permutation
 //bool Perm::operator<(const Perm &rhs) const {
 //    return (cycle_lengths == rhs.cycle_lengths) ? p < rhs.p : cycle_lengths < rhs.cycle_lengths;
 //}

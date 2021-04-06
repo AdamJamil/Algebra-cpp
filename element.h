@@ -1,8 +1,6 @@
 #ifndef ALGEBRA_ELEMENT_H
 #define ALGEBRA_ELEMENT_H
 
-#include "definitions.h"
-
 
 template<typename T>
 class group_element {
@@ -17,6 +15,18 @@ public:
     bool operator==(const group_element<T> &o) const { return label == o.label; }
     bool operator!=(const group_element<T> &o) const { return label != o.label; }
     friend std::ostream& operator <<(std::ostream& os, const group_element<T>& b) { return os << b.label; }
+};
+
+template<> struct std::hash<perm> {
+    std::size_t operator()(const ::perm& t) const {
+        size_t code = 0;
+        F(i,t.size()) code += t.injection<ll,ll>::at(i + 1) * PRIMES[i];
+        return code;
+    }
+};
+
+template<typename E> struct std::hash<group_element<E>> {
+    std::size_t operator()(const ::group_element<E> &t) const { return hash<E>()(t.label); }
 };
 
 
