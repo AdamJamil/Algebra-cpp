@@ -1,13 +1,18 @@
 #ifndef ALGEBRA_ELEMENT_H
 #define ALGEBRA_ELEMENT_H
 
+#include "definitions.h"
+#include "function.h"
+
 
 template<typename T>
 class group_element {
 public:
+    typedef T value_type;
     T label;
     std::function<T(T, T)> *compose;
 
+    group_element<T>() = default;
     group_element<T>(T label_, std::function<T(T, T)> *compose_) : label(label_), compose(compose_) {}
 
     group_element<T> operator*(const group_element<T> &o) const { return group_element<T>((*compose)(this->label, o.label), compose); }

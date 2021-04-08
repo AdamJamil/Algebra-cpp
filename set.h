@@ -1,9 +1,12 @@
 #ifndef ALGEBRA_SET_H
 #define ALGEBRA_SET_H
 
+#include "definitions.h"
+
 template<class E>
 class set : virtual public std::unordered_set<E> {
 public:
+    typedef E value_type;
     // largest chain of inclusions ending at this set
     int recursive_depth = 0;
     // prints out all elements in set

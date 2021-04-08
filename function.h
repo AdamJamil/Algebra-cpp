@@ -1,6 +1,9 @@
 #ifndef ALGEBRA_FUNCTION_H
 #define ALGEBRA_FUNCTION_H
 
+#include "definitions.h"
+#include "set.h"
+
 
 template<class D, class R>
 class function : public std::unordered_map<D, R> {
@@ -62,5 +65,7 @@ public:
     // must ensure that function is surjective and injective during conversion
     bijection(function<D, R> func) : function<D, R>(func), surjection<D, R>(func), injection<D, R>(func) {};
 };
+
+
 
 #endif //ALGEBRA_FUNCTION_H
