@@ -36,21 +36,17 @@ std::ostream& operator<<(std::ostream& out, const std::vector<T>& v) {
 // overrides << for sets
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const std::set<T>& v) {
-    out << '{';
-    for (auto ptr = v.begin(); ptr != v.end();)
-        out << *ptr << (++ptr == v.end() ? "" : ", ");
-    out << '}';
-    return out << " ";
+    std::vector<T> c{v};
+    sort(A(c));
+    return out << c;
 }
 
 // overrides << for unordered_sets
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const std::unordered_set<T>& v) {
-    out << '{';
-    for (auto ptr = v.begin(); ptr != v.end();)
-        out << *ptr << (++ptr == v.end() ? "" : ", ");
-    out << '}';
-    return out << " ";
+    std::vector<T> c(A(v));
+    sort(A(c));
+    return out << c;
 }
 
 // overrides << for pairs

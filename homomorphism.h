@@ -6,12 +6,12 @@
 #include "group.h"
 #include "element.h"
 
-// G and H are groups - elem_G and R are the group elements
-template<class G, class H, class elem_G = typename G::wrapped_value_type, class elem_H = typename H::wrapped_value_type>
+// G and H are groups - elem_G and elem_H are the group elements
+template<class G, class H, class elem_G = typename G::element, class elem_H = typename H::element>
 class homomorphism : virtual public function<elem_G, elem_H> { // function will do mapping on group elements
 public:
-    typedef typename G::value_type lab_G; // labels in domain
-    typedef typename H::value_type lab_H; // and range
+    typedef typename G::label lab_G; // labels in domain
+    typedef typename H::label lab_H; // and range
     G domain;
     H range, image;
 
@@ -30,6 +30,55 @@ public:
 
     homomorphism(function<lab_G, lab_H> f, G domain_, H range_)
         : homomorphism(wrap_function(f, domain_, range_), domain_, range_) {}
+};
+
+
+template<class G, class H, class elem_G = typename G::element, class elem_H = typename H::element>
+class epimorphism : virtual public homomorphism<G, H>, virtual public surjection<elem_G, elem_H> {
+public:
+    typedef typename G::label lab_G; // labels in domain
+    typedef typename H::label lab_H; // and range
+    epimorphism(function<elem_G, elem_H> f, G domain_, H range_):
+        function<elem_G, elem_H>(f, domain_, range_),
+        homomorphism<G, H>(f, domain_, range_),
+        surjection<elem_G, elem_H>(function<elem_G, elem_H>(f, domain_, range_)) {
+    }
+
+    epimorphism(function<lab_G, lab_H> f, G domain_, H range_)
+            : epimorphism(homomorphism<G, H>::wrap_function(f, domain_, range_), domain_, range_) {}
+};
+
+
+template<class G, class H, class elem_G = typename G::element, class elem_H = typename H::element>
+class monomorphism : virtual public homomorphism<G, H>, virtual public injection<elem_G, elem_H> {
+public:
+    typedef typename G::label lab_G; // labels in domain
+    typedef typename H::label lab_H; // and range
+    monomorphism(function<elem_G, elem_H> f, G domain_, H range_):
+            function<elem_G, elem_H>(f, domain_, range_),
+            homomorphism<G, H>(f, domain_, range_),
+            injection<elem_G, elem_H>(function<elem_G, elem_H>(f, domain_, range_)) {
+    }
+
+    monomorphism(function<lab_G, lab_H> f, G domain_, H range_)
+            : monomorphism(homomorphism<G, H>::wrap_function(f, domain_, range_), domain_, range_) {}
+};
+
+
+template<class G, class H, class elem_G = typename G::element, class elem_H = typename H::element>
+class isomorphism : virtual public homomorphism<G, H>, virtual public injection<elem_G, elem_H>, virtual public surjection<elem_G, elem_H> {
+public:
+    typedef typename G::label lab_G; // labels in domain
+    typedef typename H::label lab_H; // and range
+    isomorphism(function<elem_G, elem_H> f, G domain_, H range_):
+            function<elem_G, elem_H>(f, domain_, range_),
+            homomorphism<G, H>(f, domain_, range_),
+            injection<elem_G, elem_H>(function<elem_G, elem_H>(f, domain_, range_)),
+            surjection<elem_G, elem_H>(function<elem_G, elem_H>(f, domain_, range_)) {
+    }
+
+    isomorphism(function<lab_G, lab_H> f, G domain_, H range_)
+            : isomorphism(homomorphism<G, H>::wrap_function(f, domain_, range_), domain_, range_) {}
 };
 
 #endif //ALGEBRA_HOMOMORPHISM_H

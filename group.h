@@ -11,20 +11,10 @@
 template<class E>
 class group : virtual public set<group_element<E>> {
 public:
-    typedef E value_type;
-    typedef group_element<E> wrapped_value_type;
+    typedef E label;
+    typedef group_element<E> element;
     // composition rule
     std::function<E(E, E)> compose;
-
-    // prints out all elements in group
-    friend std::ostream& operator<<(std::ostream& out, const group<E>& g) {
-        out << "[";
-        for (auto val : g) {
-            if (val != *g.begin()) out << ", ";
-            out << val;
-        }
-        return out << "]";
-    }
 
     group(const group<E> &g) = default;
 

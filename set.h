@@ -9,15 +9,6 @@ public:
     typedef E value_type;
     // largest chain of inclusions ending at this set
     int recursive_depth = 0;
-    // prints out all elements in set
-    friend std::ostream& operator<<(std::ostream& out, const set<E>& g) {
-        out << "[";
-        for (auto val : g) {
-            if (val != *g.begin()) out << ", ";
-            out << val;
-        }
-        return out << "]";
-    }
 
     set() = default;
 
