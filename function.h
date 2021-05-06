@@ -21,6 +21,8 @@ public:
         return out << "]";
     }
 
+    function() = default;
+
     // if no domain/range given, assume that domain is domain of map, range is image
     function(std::unordered_map<D, R> map) : std::unordered_map<D, R>(map) {
         for (auto &v : map) domain.insert(v.first), image.insert(v.second), range.insert(v.second);
@@ -44,6 +46,7 @@ public:
 template<class D, class R>
 class surjection : virtual public function<D, R> {
 public:
+    surjection() : function<D, R>() {};
     // must ensure that function is surjective during conversion
     surjection(function<D, R> func) : function<D, R>(func) {
         assert(("Function is not surjective; cannot cast", func.range == func.image));
@@ -53,6 +56,7 @@ public:
 template<class D, class R>
 class injection : virtual public function<D, R> {
 public:
+    injection() : function<D, R>() {};
     // must ensure that function is injective during conversion
     injection(function<D, R> func) : function<D, R>(func) {
         assert(("Function is not injective; cannot cast", func.image.size() == func.domain.size()));
@@ -62,6 +66,7 @@ public:
 template<class D, class R>
 class bijection : virtual public surjection<D, R>, virtual public injection<D, R> {
 public:
+    bijection() : function<D, R>(), surjection<D, R>(), injection<D, R>() {};
     // must ensure that function is surjective and injective during conversion
     bijection(function<D, R> func) : function<D, R>(func), surjection<D, R>(func), injection<D, R>(func) {};
 };

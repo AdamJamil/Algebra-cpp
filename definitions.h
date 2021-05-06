@@ -45,7 +45,15 @@ std::ostream& operator<<(std::ostream& out, const std::set<T>& v) {
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const std::unordered_set<T>& v) {
     std::vector<T> c(A(v));
-    sort(A(c));
+//    sort(A(c));
+    return out << c;
+}
+
+// overrides << for unordered_maps
+template <typename K, typename V>
+std::ostream& operator<<(std::ostream& out, const std::unordered_map<K, V>& v) {
+    std::vector<std::pair<K, V>> c(A(v));
+//    sort(A(c));
     return out << c;
 }
 

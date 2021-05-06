@@ -10,7 +10,7 @@ class group_element {
 public:
     typedef T value_type;
     T label;
-    std::function<T(T, T)> *compose;
+    std::function<T(T, T)> *compose = nullptr;
 
     group_element<T>() = default;
     group_element<T>(T label_, std::function<T(T, T)> *compose_) : label(label_), compose(compose_) {}
