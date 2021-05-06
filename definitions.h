@@ -23,6 +23,15 @@ using namespace std::chrono;
 #define TR(x, v) for (auto &x:v)
 #define A(x) (x).begin(), (x).end()
 
+namespace CHECK
+{
+    struct No {};
+    template<typename T, typename Arg> No operator<(const T&, const Arg&);
+
+    template<typename T, typename Arg = T>
+    struct LessExists { enum { value = std::is_same<decltype(std::declval<T>() < std::declval<Arg>()), No>::value }; };
+}
+
 // overrides << for vectors
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const std::vector<T>& v) {
@@ -45,7 +54,8 @@ std::ostream& operator<<(std::ostream& out, const std::set<T>& v) {
 template <typename T>
 std::ostream& operator<<(std::ostream& out, const std::unordered_set<T>& v) {
     std::vector<T> c(A(v));
-//    sort(A(c));
+    if constexpr (CHECK::LessExists<T>::value)
+        sort(A(c));
     return out << c;
 }
 
@@ -53,7 +63,8 @@ std::ostream& operator<<(std::ostream& out, const std::unordered_set<T>& v) {
 template <typename K, typename V>
 std::ostream& operator<<(std::ostream& out, const std::unordered_map<K, V>& v) {
     std::vector<std::pair<K, V>> c(A(v));
-//    sort(A(c));
+    if constexpr (CHECK::LessExists<std::pair<K, V>>::value and CHECK::LessExists<K>::value and CHECK::LessExists<V>::value)
+        sort(A(c));
     return out << c;
 }
 
