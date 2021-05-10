@@ -53,9 +53,9 @@ public:
 
 
 namespace generate {
-    std::unordered_set<ll> generators_Z() { return {1}; }
+    std::unordered_set<ll> generators_Z(int n) { return {std::min(1, n - 1)}; }
     std::function<ll(ll, ll)> composition_Z(int n) { return [n](ll a, ll b){ return (a + b) % n; }; }
-    group<ll> Z(int n) { return {generators_Z(), composition_Z(n)}; }
+    group<ll> Z(int n) { return {generators_Z(n), composition_Z(n)}; }
 
     std::unordered_set<perm> generators_S(int n) {
         if (n == 1) {
