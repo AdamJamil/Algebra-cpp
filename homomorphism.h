@@ -13,14 +13,12 @@ public:
     typedef typename G::label lab_G; // labels in domain
     typedef typename H::label lab_H; // and range
     G domain;
-    H range, image;
+    H range;
 
     homomorphism(function<elem_G, elem_H> f, G domain_, H range_)
-        : function<elem_G, elem_H>(f), domain(domain_), range(range_), image(set<lab_H>{}, range_.compose) {
-        for (auto &x : domain_) for (auto &y : domain_) {
+        : function<elem_G, elem_H>(f), domain(domain_), range(range_) {
+        if (CHECK_ALL) for (auto &x : domain_) for (auto &y : domain_)
             assert(("Homomorphism property not satisfied.", f[x * y] == f[x] * f[y]));
-        }
-        for (auto &x : domain_) image.insert(f[x]);
     }
 
     static function<elem_G, elem_H> wrap_function(function<lab_G, lab_H> f, G domain, H range) {
@@ -107,8 +105,11 @@ namespace generate {
             for (auto &x : subgroups[idx]) update_map<G, H>(next_f, x, par, range);
             // check OK
             bool ok = true;
-            for (auto x : subgroups[idx]) for (auto y : subgroups[idx])
+            for (auto x : subgroups[idx]) for (auto y : subgroups[idx]) {
                 ok &= next_f[domain.compose(x, y)] == range.compose(next_f[x], next_f[y]);
+                if (!ok) goto done;
+            }
+            done:;
             if (ok and idx == gen.size() - 1) ans.push_back(next_f);
             else if (ok) {
                 auto next = backtrack_homomorphisms(domain, range, next_f, gen, subgroups, idx + 1, par);

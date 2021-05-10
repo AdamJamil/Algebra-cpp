@@ -1,6 +1,14 @@
 #ifndef ALGEBRA_DEFINITIONS_H
 #define ALGEBRA_DEFINITIONS_H
 
+//#define CHECK_ALL_FLAG // imagine wanting your code to be slow 😹😹😹😹😹
+
+#ifdef CHECK_ALL_FLAG
+    constexpr bool CHECK_ALL = true;
+#else
+    constexpr bool CHECK_ALL = false;
+#endif
+
 #include <iostream>
 #include <vector>
 #include <queue>
